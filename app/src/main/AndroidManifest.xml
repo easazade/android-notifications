@@ -19,6 +19,7 @@
     </activity>
     <activity android:name=".ActionActivity">
     </activity>
+    <receiver android:name=".GeneralBroadCastReceiver" />
   </application>
 
 </manifest>

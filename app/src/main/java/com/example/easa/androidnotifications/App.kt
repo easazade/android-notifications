@@ -4,12 +4,14 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.IntentFilter
 import android.os.Build
 
 class App : Application() {
 
   companion object {
     const val PRIMARY_CHANNEL_ID = "nn app_channel_id"
+    const val ACTION_SHOW_TOAST = "action_show_toast"
   }
 
   override fun onCreate() {
@@ -19,6 +21,7 @@ class App : Application() {
     //google recommend to call it as soon as app is created .
     //we can also add more channels anytime at run time
     createAppNotificationChannel()
+    registerReceiver(GeneralBroadCastReceiver(), IntentFilter(ACTION_SHOW_TOAST))
   }
 
   private fun createAppNotificationChannel() {
