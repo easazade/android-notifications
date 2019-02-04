@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Android Notifications</string>
+  <string name="app_name">Android Notifications</string>
+  <string name="app_primary_channel_name">app primary notification channel</string>
+  <string name="app_primary_channel_description">primary notification channel for this app</string>
 </resources>
