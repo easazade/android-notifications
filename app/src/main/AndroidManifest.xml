@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.easa.androidnotifications">
 
+  <uses-permission android:name="android.permission.VIBRATE" />
+
   <application
       android:name=".App"
       android:allowBackup="true"

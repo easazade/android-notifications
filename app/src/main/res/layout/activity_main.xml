@@ -14,6 +14,18 @@
       >
 
     <Button
+        android:id="@+id/mProgressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:text="progressbar"
+        app:layout_constraintEnd_toStartOf="@+id/mReply"
+        app:layout_constraintStart_toEndOf="@+id/mSimple"
+        app:layout_constraintTop_toBottomOf="@+id/mContent"
+        />
+    <Button
         android:id="@+id/mGroupNotification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,6 +44,37 @@
         android:text="create then ->"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mCustom2"
+        />
+    <Button
+        android:id="@+id/mForegroundService"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="foreground service"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mCreateThen"
+        />
+    <Button
+        android:id="@+id/mCategoryMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="set category message"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mForegroundService"
+        />
+    <Button
+        android:id="@+id/mDontShowDetailsOnLockScreen"
+        android:layout_width="wrap_content"
+        android:layout_height="49dp"
+        android:layout_marginTop="8dp"
+        android:text="visible on lock screen but no details"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mCategoryMessage"
         />
     <Button
         android:id="@+id/mUpdate"

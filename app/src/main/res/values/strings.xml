@@ -4,4 +4,6 @@
   <string name="app_primary_channel_description">primary notification channel for this app</string>
   <string name="show_toast">show toast</string>
   <string name="reply_label">reply label</string>
+  <string name="app_secondary_channel_name">app secondary channel</string>
+  <string name="app_secondary_channel_description">this one has vibrates and sound</string>
 </resources>
