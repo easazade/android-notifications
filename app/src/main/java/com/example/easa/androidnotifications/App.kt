@@ -59,7 +59,7 @@ class App : Application() {
         enableVibration(true)
         val audioAttributes = AudioAttributes.Builder()
             .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-            .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
+            .setUsage(AudioAttributes.USAGE_NOTIFICATION)
             .build()
         setSound(alarmSound, audioAttributes)
         vibrationPattern = longArrayOf(0,300,200,300)
