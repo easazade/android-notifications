@@ -6,9 +6,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
+import android.support.v4.app.RemoteInput
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.mContent
 import kotlinx.android.synthetic.main.activity_main.mExpandableText
+import kotlinx.android.synthetic.main.activity_main.mReply
 import kotlinx.android.synthetic.main.activity_main.mSimple
 import kotlinx.android.synthetic.main.activity_main.mSimpleWithActions
 import kotlinx.android.synthetic.main.activity_main.mTitle
@@ -19,6 +21,8 @@ class MainActivity : AppCompatActivity() {
   companion object {
     const val NOTIFICATION_ID = "NOTIFICATION_ID"
     const val BYTE_ARRAY_ARG = "BYTE_ARRAY_ARG"
+    const val KEY_TEXT_REPLY = "key_reply_text"
+    const val ACTION_REPLY = "action_reply"
   }
 
   private var notificationId: Int = 200
@@ -47,10 +51,17 @@ class MainActivity : AppCompatActivity() {
         notify(id, withButtons(id))
       }
     }
+    mReply.setOnClickListener {
+      with(NotificationManagerCompat.from(this)) {
+        val id = generateUnicNotificationId()
+        notify(id, directReplyAction(id))
+      }
+    }
 
   }
 
   private fun generateUnicNotificationId(): Int = ++notificationId
+  private fun generateUnicRequestCode(): Int = notificationId * 2 + 1
 
   private fun textTitleSmallIcon(): Notification {
     return NotificationCompat.Builder(this, App.PRIMARY_CHANNEL_ID)
@@ -104,13 +115,13 @@ class MainActivity : AppCompatActivity() {
         .build()
   }
 
-  private fun withButtons(notificationId: Int): Notification {
+  private fun withButtons(id: Int): Notification {
     val snoozeIntent = Intent(this, GeneralBroadCastReceiver::class.java).apply {
       action = App.ACTION_SHOW_TOAST
       //for some reason only extras that are passed to broadcastReceivers through pending intents that work
       //are bytearrays check stackoverflow
       //pending intents that are made from getActivity() method have similar behavior
-      putExtra(NOTIFICATION_ID, notificationId.toString().toByteArray())
+      putExtra(NOTIFICATION_ID, id.toString().toByteArray())
     }
     val snoozePendingIntent: PendingIntent =
       PendingIntent.getBroadcast(this, 0, snoozeIntent, PendingIntent.FLAG_CANCEL_CURRENT)
@@ -128,7 +139,43 @@ class MainActivity : AppCompatActivity() {
         .build()
   }
 
-  private fun directReplyAction() {
+  private fun directReplyAction(id: Int): Notification {
+    val replyLabel: String = resources.getString(R.string.reply_label)
+    val remoteInput: RemoteInput = RemoteInput.Builder(KEY_TEXT_REPLY)
+        .run {
+          setLabel(replyLabel)
+          build()
+        }
+    // Build a PendingIntent for the reply action to trigger.
+    val conversationId = generateUnicRequestCode()
+    val replyIntent = Intent(this, GeneralBroadCastReceiver::class.java).apply {
+      action = ACTION_REPLY
+      putExtra(NOTIFICATION_ID, id.toString().toByteArray())
+
+    }
+    var replyPendingIntent: PendingIntent =
+      PendingIntent.getBroadcast(
+          applicationContext,
+          conversationId,
+          replyIntent,
+          PendingIntent.FLAG_UPDATE_CURRENT
+      )
+    // Create the reply action and add the remote input.
+    var action: NotificationCompat.Action =
+      NotificationCompat.Action.Builder(
+          R.mipmap.ic_launcher,
+          "reply", replyPendingIntent
+      )
+          .addRemoteInput(remoteInput)
+          .build()
+
+    // Build the notification and add the action.
+    return NotificationCompat.Builder(this, App.PRIMARY_CHANNEL_ID)
+        .setSmallIcon(R.mipmap.ic_launcher)
+        .setContentTitle(mTitle.text.toString())
+        .setContentText(mContent.text.toString())
+        .addAction(action)
+        .build()
 
   }
 
